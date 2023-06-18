@@ -11,6 +11,8 @@ class ChatDetailScreen extends StatefulWidget {
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
+  final TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,75 +81,124 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          ListView.separated(
-              padding: const EdgeInsets.symmetric(
-                vertical: Sizes.size20,
-                horizontal: Sizes.size14,
-              ),
-              itemBuilder: (context, index) {
-                final isMine = index % 2 == 0;
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment:
-                      isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(
-                        Sizes.size14,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isMine
-                            ? Colors.blue
-                            : Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(
-                              Sizes.size20,
-                            ),
-                            topRight: const Radius.circular(
-                              Sizes.size20,
-                            ),
-                            bottomLeft: Radius.circular(
-                              isMine ? Sizes.size20 : Sizes.size5,
-                            ),
-                            bottomRight: Radius.circular(
-                              !isMine ? Sizes.size20 : Sizes.size5,
-                            )),
-                      ),
-                      child: const Text(
-                        "This is a message",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: Sizes.size16,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Stack(
+          children: [
+            ListView.separated(
+                padding: const EdgeInsets.symmetric(
+                  vertical: Sizes.size20,
+                  horizontal: Sizes.size14,
+                ),
+                itemBuilder: (context, index) {
+                  final isMine = index % 2 == 0;
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: isMine
+                        ? MainAxisAlignment.end
+                        : MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(
+                          Sizes.size14,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isMine
+                              ? Colors.blue
+                              : Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(
+                                Sizes.size20,
+                              ),
+                              topRight: const Radius.circular(
+                                Sizes.size20,
+                              ),
+                              bottomLeft: Radius.circular(
+                                isMine ? Sizes.size20 : Sizes.size5,
+                              ),
+                              bottomRight: Radius.circular(
+                                !isMine ? Sizes.size20 : Sizes.size5,
+                              )),
+                        ),
+                        child: const Text(
+                          "This is a message",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: Sizes.size16,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
-              separatorBuilder: (context, index) => Gaps.v10,
-              itemCount: 10),
-          Positioned(
-            bottom: 0,
-            width: MediaQuery.of(context).size.width,
-            child: BottomAppBar(
-                color: Colors.grey.shade50,
-                child: Row(
-                  children: [
-                    const Expanded(
-                      child: TextField(),
-                    ),
-                    Gaps.h20,
-                    Container(
-                      child: const FaIcon(
-                        FontAwesomeIcons.paperPlane,
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) => Gaps.v10,
+                itemCount: 10),
+            Positioned(
+              bottom: 0,
+              width: MediaQuery.of(context).size.width,
+              child: BottomAppBar(
+                  color: Colors.grey.shade50,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _controller,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: Sizes.size12,
+                              horizontal: Sizes.size20,
+                            ),
+                            hintText: "Send a message...",
+                            hintStyle: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: Sizes.size18,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(Sizes.size10),
+                                bottomLeft: Radius.circular(Sizes.size10),
+                                topRight: Radius.circular(Sizes.size10),
+                              ),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            suffixIcon: const FaIcon(
+                              FontAwesomeIcons.faceSmile,
+                            ),
+                            suffixIconConstraints: const BoxConstraints(
+                              minWidth: Sizes.size40,
+                              minHeight: Sizes.size10,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                )),
-          )
-        ],
+                      Gaps.h20,
+                      Container(
+                        padding: const EdgeInsets.all(
+                          Sizes.size12,
+                        ),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.grey.shade400,
+                        ),
+                        child: const Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.solidPaperPlane,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }
