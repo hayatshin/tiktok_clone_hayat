@@ -28,13 +28,13 @@ class _DiscoverScreenState extends State<DiscoverScreen>
   final TextEditingController _textEditingController =
       TextEditingController(text: "Initial Text");
 
-  void _onSearchChanged(String value) {
-    print(value);
-  }
+  // void _onSearchChanged(String value) {
+  //   print(value);
+  // }
 
-  void _onSearchSubmitted(String value) {
-    print(value);
-  }
+  // void _onSearchSubmitted(String value) {
+  //   print(value);
+  // }
 
   void _onGoBackHistory() {
     Navigator.of(context).pop();

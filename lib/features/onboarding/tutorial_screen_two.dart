@@ -51,7 +51,7 @@ class _TutorialScreenTwoState extends State<TutorialScreenTwo> {
         MaterialPageRoute(
           builder: (context) => const MainNavigationScreen(),
         ), (route) {
-      print(route);
+      // print(route);
       return true;
     });
   }

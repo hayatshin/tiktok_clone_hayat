@@ -30,6 +30,7 @@ class TikTokApp extends StatelessWidget {
           cursorColor: Color(0xFFE9435A),
         ),
         useMaterial3: true,
+        splashColor: Colors.transparent,
       ),
       home: const MainNavigationScreen(),
     );

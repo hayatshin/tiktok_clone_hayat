@@ -25,7 +25,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
             MaterialPageRoute(
               builder: (context) => const InterestsScreen(),
             ), (route) {
-          print(route);
+          // print(route);
           return true;
         });
       }
