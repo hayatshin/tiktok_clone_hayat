@@ -34,6 +34,7 @@ class _VideoPostState extends State<VideoPost>
   bool _isPaused = false;
 
   void _onVideoChange() {
+    if (!mounted) return;
     if (_vidoPlayerControllder.value.isInitialized) {
       if (_vidoPlayerControllder.value.duration ==
           _vidoPlayerControllder.value.position) {
