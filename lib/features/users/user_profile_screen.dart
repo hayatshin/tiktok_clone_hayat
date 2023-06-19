@@ -93,28 +93,81 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
                     Gaps.v14,
-                    FractionallySizedBox(
-                      widthFactor: 0.43,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: Sizes.size12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(
-                              Sizes.size4,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: Sizes.size40,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              width: Sizes.size40,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: Sizes.size12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(
+                                    Sizes.size4,
+                                  ),
+                                ),
+                              ),
+                              child: const Text(
+                                "Follow",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
-                        ),
-                        child: const Text(
-                          "Follow",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+                          Gaps.h10,
+                          SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1.0,
+                                  color: Colors.grey.shade500,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(Sizes.size3),
+                                ),
+                              ),
+                              child: const Center(
+                                child: FaIcon(
+                                  FontAwesomeIcons.youtube,
+                                ),
+                              ),
+                            ),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
+                          Gaps.h10,
+                          SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1.0,
+                                  color: Colors.grey.shade500,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(Sizes.size3),
+                                ),
+                              ),
+                              child: const Center(
+                                child: FaIcon(
+                                  FontAwesomeIcons.caretDown,
+                                  size: Sizes.size16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Gaps.v14,
@@ -160,62 +213,68 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
                 itemCount: 20,
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.symmetric(
+                  vertical: Sizes.size6,
+                ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: Sizes.size2,
                   mainAxisSpacing: Sizes.size2,
                   childAspectRatio: 9 / 14,
                 ),
-                itemBuilder: (context, index) => Column(
+                itemBuilder: (context, index) => Stack(
                   children: [
-                    AspectRatio(
-                      aspectRatio: 9 / 14,
-                      child: FadeInImage.assetNetwork(
-                          placeholderFit: BoxFit.cover,
-                          fit: BoxFit.cover,
-                          placeholder: "assets/images/tree.jpg",
-                          image:
-                              "https://media.istockphoto.com/id/944812540/ko/%EC%82%AC%EC%A7%84/%EC%82%B0-%ED%94%84%EB%A6%AC-%ED%8F%B0-%ED%83%80-%EB%8D%B8%EA%B0%80-%EB%8B%A4-%EC%84%AC-%EC%95%84%EC%A1%B0%EB%A0%88%EC%8A%A4-%EC%A0%9C%EB%8F%84.jpg?s=612x612&w=0&k=20&c=DQJ6eA0Wnxqt1yDdJChcoyuJ_5r0IQBduoIFZY0QV78="),
+                    Positioned.fill(
+                      top: 0,
+                      left: 0,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 9 / 14,
+                            child: FadeInImage.assetNetwork(
+                                placeholderFit: BoxFit.cover,
+                                fit: BoxFit.cover,
+                                placeholder: "assets/images/tree.jpg",
+                                image:
+                                    "https://media.istockphoto.com/id/944812540/ko/%EC%82%AC%EC%A7%84/%EC%82%B0-%ED%94%84%EB%A6%AC-%ED%8F%B0-%ED%83%80-%EB%8D%B8%EA%B0%80-%EB%8B%A4-%EC%84%AC-%EC%95%84%EC%A1%B0%EB%A0%88%EC%8A%A4-%EC%A0%9C%EB%8F%84.jpg?s=612x612&w=0&k=20&c=DQJ6eA0Wnxqt1yDdJChcoyuJ_5r0IQBduoIFZY0QV78="),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-              GridView.builder(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                itemCount: 20,
-                padding: const EdgeInsets.all(
-                  Sizes.size6,
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: Sizes.size10,
-                  mainAxisSpacing: Sizes.size10,
-                  childAspectRatio: 9 / 16,
-                ),
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          Sizes.size4,
+                    const Positioned.fill(
+                      bottom: 0,
+                      left: 0,
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FaIcon(
+                                FontAwesomeIcons.caretRight,
+                                color: Colors.white,
+                                size: Sizes.size24,
+                              ),
+                              Gaps.h14,
+                              Text(
+                                "4.1M",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                  fontSize: Sizes.size18,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      child: AspectRatio(
-                        aspectRatio: 9 / 16,
-                        child: FadeInImage.assetNetwork(
-                            placeholderFit: BoxFit.cover,
-                            fit: BoxFit.cover,
-                            placeholder: "assets/images/tree.jpg",
-                            image:
-                                "https://media.istockphoto.com/id/944812540/ko/%EC%82%AC%EC%A7%84/%EC%82%B0-%ED%94%84%EB%A6%AC-%ED%8F%B0-%ED%83%80-%EB%8D%B8%EA%B0%80-%EB%8B%A4-%EC%84%AC-%EC%95%84%EC%A1%B0%EB%A0%88%EC%8A%A4-%EC%A0%9C%EB%8F%84.jpg?s=612x612&w=0&k=20&c=DQJ6eA0Wnxqt1yDdJChcoyuJ_5r0IQBduoIFZY0QV78="),
-                      ),
                     ),
                   ],
                 ),
               ),
+              const Text("hi")
             ],
           ),
         ),
