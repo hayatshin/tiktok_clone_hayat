@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -48,6 +49,10 @@ class _VideoPostState extends State<VideoPost>
         VideoPlayerController.asset("assets/videos/hyean.mp4");
     await _vidoPlayerControllder.initialize();
     await _vidoPlayerControllder.setLooping(true);
+
+    if (kIsWeb) {
+      await _vidoPlayerControllder.setVolume(0);
+    }
     _vidoPlayerControllder.addListener(_onVideoChange);
 
     setState(() {});
