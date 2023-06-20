@@ -33,6 +33,7 @@ class _VideoPostState extends State<VideoPost>
   String _videoDescription = "";
 
   bool _isPaused = false;
+  bool _isMuted = true;
 
   void _onVideoChange() {
     if (!mounted) return;
@@ -52,6 +53,9 @@ class _VideoPostState extends State<VideoPost>
 
     if (kIsWeb) {
       await _vidoPlayerControllder.setVolume(0);
+      setState(() {
+        _isMuted = true;
+      });
     }
     _vidoPlayerControllder.addListener(_onVideoChange);
 
@@ -139,6 +143,17 @@ class _VideoPostState extends State<VideoPost>
     );
 
     _onTogglePause();
+  }
+
+  void _onToggleVolume() {
+    if (_isMuted) {
+      _vidoPlayerControllder.setVolume(100);
+    } else {
+      _vidoPlayerControllder.setVolume(0);
+    }
+    setState(() {
+      _isMuted = !_isMuted;
+    });
   }
 
   @override
@@ -230,6 +245,17 @@ class _VideoPostState extends State<VideoPost>
             right: 10,
             child: Column(
               children: [
+                GestureDetector(
+                  onTap: _onToggleVolume,
+                  child: FaIcon(
+                    _isMuted
+                        ? FontAwesomeIcons.volumeHigh
+                        : FontAwesomeIcons.volumeXmark,
+                    size: Sizes.size40,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                Gaps.v24,
                 const CircleAvatar(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,
