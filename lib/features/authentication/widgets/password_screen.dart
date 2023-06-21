@@ -66,7 +66,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
     return GestureDetector(
       onTap: _onScaffoldTap,
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text(
             "Sign up",

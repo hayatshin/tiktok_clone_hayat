@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
+import 'package:tiktok_clone/utils.dart';
 
 import '../../constants/sizes.dart';
 
@@ -98,6 +99,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
+          color: isDarkMode(context) ? Colors.black : Colors.white,
           child: Container(
             padding: const EdgeInsets.symmetric(
               vertical: Sizes.size48,

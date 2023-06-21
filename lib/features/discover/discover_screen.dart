@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/breakpoints.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils.dart';
 
 final tabs = [
   "Top",
@@ -101,13 +102,17 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                   constraints: BoxConstraints(
                     maxWidth: size.width > Breakpoints.lg
                         ? Breakpoints.sm
-                        : size.width * 0.8,
+                        : size.width * 0.7,
                   ),
                   child: Flexible(
                     child: SizedBox(
                       width: size.width,
                       height: Sizes.size40,
                       child: TextField(
+                        style: TextStyle(
+                          color:
+                              isDarkMode(context) ? Colors.white : Colors.black,
+                        ),
                         onChanged: _onTypingTextCheck,
                         focusNode: _focusNode,
                         minLines: null,
@@ -123,7 +128,9 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
-                          fillColor: Colors.grey.shade100,
+                          fillColor: isDarkMode(context)
+                              ? Colors.grey.shade700
+                              : Colors.grey.shade100,
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: Sizes.size10,
                             vertical: Sizes.size10,
@@ -166,9 +173,9 @@ class _DiscoverScreenState extends State<DiscoverScreen>
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size16,
             ),
-            unselectedLabelColor: Colors.grey.shade500,
-            labelColor: Colors.black,
-            indicatorColor: Colors.black,
+            // unselectedLabelColor: Colors.grey.shade500,
+            // labelColor: Theme.of(context).tabBarTheme.indicatorColor,
+            indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
             tabs: [
               for (var tab in tabs)
                 Tab(

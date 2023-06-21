@@ -29,21 +29,18 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: [
               Gaps.v80,
-              const Text(
+              Text(
                 "Log in to TikTok",
-                style: TextStyle(
-                  fontSize: Sizes.size24,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Gaps.v20,
-              const Text(
-                "Manage your account, check notifications, comment on videos, and more.",
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  color: Colors.black45,
+              Opacity(
+                opacity: 0.7,
+                child: Text(
+                  "Manage your account, check notifications, comment on videos, and more.",
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               Gaps.v16,
               GestureDetector(
@@ -51,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                 child: AuthButton(
                   icon: const FaIcon(FontAwesomeIcons.user),
                   text: "Use email & password",
-                  callback: () => _onSignUpTap(context),
+                  callback: () => _onEmailLoginTap(context),
                 ),
               ),
               Gaps.v20,
@@ -65,10 +62,11 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 20),
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -79,8 +77,9 @@ class LoginScreen extends StatelessWidget {
                 child: Text(
                   "Sign up",
                   style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).primaryColor),
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
             ],

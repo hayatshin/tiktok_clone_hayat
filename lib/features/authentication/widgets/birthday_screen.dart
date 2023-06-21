@@ -31,7 +31,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   }
 
   void _onNextTap() {
-    if (_birthday.isEmpty) return;
+    // if (_birthday.isEmpty) return;
 
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const InterestsScreen()));
@@ -45,7 +45,6 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           "Sign up",
