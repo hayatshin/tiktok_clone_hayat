@@ -104,52 +104,50 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                         ? Breakpoints.sm
                         : size.width * 0.7,
                   ),
-                  child: Flexible(
-                    child: SizedBox(
-                      width: size.width,
-                      height: Sizes.size40,
-                      child: TextField(
-                        style: TextStyle(
-                          color:
-                              isDarkMode(context) ? Colors.white : Colors.black,
+                  child: SizedBox(
+                    width: size.width,
+                    height: Sizes.size40,
+                    child: TextField(
+                      style: TextStyle(
+                        color:
+                            isDarkMode(context) ? Colors.white : Colors.black,
+                      ),
+                      onChanged: _onTypingTextCheck,
+                      focusNode: _focusNode,
+                      minLines: null,
+                      maxLines: null,
+                      expands: true,
+                      controller: _textEditingController,
+                      textInputAction: TextInputAction.newline,
+                      cursorColor: Theme.of(context).primaryColor,
+                      decoration: InputDecoration(
+                        // hintText: "input",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(Sizes.size10),
+                          borderSide: BorderSide.none,
                         ),
-                        onChanged: _onTypingTextCheck,
-                        focusNode: _focusNode,
-                        minLines: null,
-                        maxLines: null,
-                        expands: true,
-                        controller: _textEditingController,
-                        textInputAction: TextInputAction.newline,
-                        cursorColor: Theme.of(context).primaryColor,
-                        decoration: InputDecoration(
-                          // hintText: "input",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(Sizes.size10),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: isDarkMode(context)
-                              ? Colors.grey.shade700
-                              : Colors.grey.shade100,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: Sizes.size10,
-                            vertical: Sizes.size10,
-                          ),
-                          suffixIconConstraints: const BoxConstraints(
-                            minWidth: 40,
-                            minHeight: 10,
-                          ),
-                          suffixIcon: _isWriting
-                              ? GestureDetector(
-                                  onTap: _onTapXmark,
-                                  child: const FaIcon(
-                                    FontAwesomeIcons.solidCircleXmark,
-                                    color: Colors.grey,
-                                    size: Sizes.size24,
-                                  ),
-                                )
-                              : null,
+                        filled: true,
+                        fillColor: isDarkMode(context)
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade100,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.size10,
+                          vertical: Sizes.size10,
                         ),
+                        suffixIconConstraints: const BoxConstraints(
+                          minWidth: 40,
+                          minHeight: 10,
+                        ),
+                        suffixIcon: _isWriting
+                            ? GestureDetector(
+                                onTap: _onTapXmark,
+                                child: const FaIcon(
+                                  FontAwesomeIcons.solidCircleXmark,
+                                  color: Colors.grey,
+                                  size: Sizes.size24,
+                                ),
+                              )
+                            : null,
                       ),
                     ),
                   ),
