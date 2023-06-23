@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/video_config/video_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -26,10 +28,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: [
-          CupertinoSwitch(
-            value: _notification,
-            onChanged: _onNotificationChanged,
+          // provider
+          SwitchListTile(
+            value: context.watch<VideoProvider>().isMuted,
+            onChanged: (value) => context.read<VideoProvider>().toggleIsMuted(),
+            title: const Text(
+              "Enable notifications",
+            ),
           ),
+          // ValueNotifier
+          /*  AnimatedBuilder(
+            animation: videoChangeNotifier,
+            builder: (context, child) => SwitchListTile(
+              value: videoValueNotifier.value,
+              onChanged: (value) {
+                videoValueNotifier.value = !videoValueNotifier.value;
+              },
+              title: const Text(
+                "Auto Mute",
+              ),
+              subtitle: const Text("Videos will be muted by default."),
+            ),
+          ), */
+
+          // ChangeNotifier
+          /*  AnimatedBuilder(
+            animation: videoChangeNotifier,
+            builder: (context, child) => SwitchListTile(
+              value: videoChangeNotifier.autoMute,
+              onChanged: (value) {
+                videoChangeNotifier.toggleAutoMute();
+              },
+              title: const Text(
+                "Auto Mute",
+              ),
+              subtitle: const Text("Videos will be muted by default."),
+            ),
+          ), */
+
+          // InheritedWidget
+          /* SwitchListTile(
+            value: VideoConfigData.of(context).autoMute,
+            onChanged: (value) {
+              VideoConfigData.of(context).toggleMuted();
+            },
+            title: const Text(
+              "Auto Mute",
+            ),
+            subtitle: const Text("Videos will be muted by default."),
+          ), */
           SwitchListTile(
             value: _notification,
             onChanged: _onNotificationChanged,
@@ -37,10 +84,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
               "Enable notifications",
             ),
           ),
+          /* CupertinoSwitch(
+            value: _notification,
+            onChanged: _onNotificationChanged,
+          ), */
           CheckboxListTile(
             value: _notification,
             onChanged: _onNotificationChanged,
             title: const Text("Enable notifications"),
+            subtitle: const Text("They will be cute."),
             activeColor: Colors.black,
           ),
           ListTile(

@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/video_config/video_provider.dart';
+import 'package:tiktok_clone/common/widgets/video_config/video_value_notifier.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
@@ -34,6 +37,8 @@ class _VideoPostState extends State<VideoPost>
 
   bool _isPaused = false;
   bool _isMuted = true;
+  // bool _autoMute = videoChangeNotifier.autoMute;
+  bool _autoMute = videoValueNotifier.value;
 
   void _onVideoChange() {
     if (!mounted) return;
@@ -89,6 +94,18 @@ class _VideoPostState extends State<VideoPost>
         _videoDescription = _initialVideoDescription;
       });
     }
+
+    // videoChangeNotifier.addListener(() {
+    //   setState(() {
+    //     _autoMute = videoChangeNotifier.autoMute;
+    //   });
+    // });
+
+    videoValueNotifier.addListener(() {
+      setState(() {
+        _autoMute = videoValueNotifier.value;
+      });
+    });
   }
 
   @override
@@ -158,6 +175,7 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
+    // bool settingMute = VideoConfigData.of(context).autoMute;
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
@@ -245,12 +263,15 @@ class _VideoPostState extends State<VideoPost>
             right: 10,
             child: Column(
               children: [
+                // 볼륨 조절
                 GestureDetector(
                   onTap: _onToggleVolume,
                   child: FaIcon(
-                    _isMuted
-                        ? FontAwesomeIcons.volumeHigh
-                        : FontAwesomeIcons.volumeXmark,
+                    context.watch<VideoProvider>().isMuted
+                        ? FontAwesomeIcons.volumeXmark
+                        : _isMuted
+                            ? FontAwesomeIcons.volumeHigh
+                            : FontAwesomeIcons.volumeXmark,
                     size: Sizes.size40,
                     color: Theme.of(context).primaryColor,
                   ),

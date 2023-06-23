@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/utils.dart';
 
@@ -12,6 +13,15 @@ class TutorialScreen extends StatefulWidget {
 }
 
 class _TutorialScreenState extends State<TutorialScreen> {
+  void _onEnterAppTap() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(tab: "home"),
+      ),
+      (router) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
