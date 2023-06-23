@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/video_config/dark_config.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -29,6 +30,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         children: [
           // provider
+          AnimatedBuilder(
+            animation: darkConfig,
+            builder: (context, child) => SwitchListTile(
+              value: darkConfig.value,
+              onChanged: (value) {
+                darkConfig.value = !darkConfig.value;
+              },
+              title: const Text(
+                "DarkMode",
+              ),
+              subtitle: const Text("you can set up dark mode."),
+            ),
+          ),
           SwitchListTile(
             value: context.watch<VideoProvider>().isMuted,
             onChanged: (value) => context.read<VideoProvider>().toggleIsMuted(),

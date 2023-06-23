@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/video_config/dark_config.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_provider.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/router.dart';
@@ -15,23 +16,40 @@ void main() async {
   runApp(const TikTokApp());
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends StatefulWidget {
   const TikTokApp({super.key});
 
+  @override
+  State<TikTokApp> createState() => _TikTokAppState();
+}
+
+class _TikTokAppState extends State<TikTokApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    bool darkTheme = darkConfig.value;
+
+    darkConfig.addListener(() {
+      setState(() {
+        darkTheme = darkConfig.value;
+      });
+    });
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => VideoProvider(),
+        ),
+        ValueListenableProvider.value(
+          value: darkConfig,
         )
       ],
       child: MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        themeMode: ThemeMode.system,
+        // themeMode: ThemeMode.dark,
+        themeMode: darkTheme ? ThemeMode.dark : ThemeMode.light,
         theme: ThemeData(
           useMaterial3: true,
           // textTheme: GoogleFonts.itimTextTheme(),
@@ -84,8 +102,8 @@ class TikTokApp extends StatelessWidget {
             cursorColor: Color(0xFFE9435A),
           ),
           appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.white,
+            backgroundColor: Colors.black,
+            surfaceTintColor: Colors.black,
             titleTextStyle: const TextStyle(
               color: Colors.white,
               fontSize: Sizes.size16 + Sizes.size2,
@@ -103,7 +121,7 @@ class TikTokApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.black,
           primaryColor: const Color(0xFFE9435A),
           bottomAppBarTheme: BottomAppBarTheme(
-            color: Colors.grey.shade800,
+            color: Colors.grey.shade900,
           ),
         ),
         // home: const SignUpScreen(),
