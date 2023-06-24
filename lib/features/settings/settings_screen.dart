@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/video_config/dark_config.dart';
-import 'package:tiktok_clone/common/widgets/video_config/video_provider.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -29,6 +29,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: [
+          SwitchListTile(
+            value: context.watch<PlaybackConfigViewModel>().muted,
+            onChanged: (value) =>
+                context.read<PlaybackConfigViewModel>().setMuted(value),
+            title: const Text(
+              "Mute video",
+            ),
+          ),
+          SwitchListTile(
+            value: context.watch<PlaybackConfigViewModel>().autoplay,
+            onChanged: (value) =>
+                context.read<PlaybackConfigViewModel>().setAutoplay(value),
+            title: const Text(
+              "Auto play",
+            ),
+          ),
           // provider
           AnimatedBuilder(
             animation: darkConfig,
@@ -43,13 +59,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: const Text("you can set up dark mode."),
             ),
           ),
-          SwitchListTile(
-            value: context.watch<VideoProvider>().isMuted,
-            onChanged: (value) => context.read<VideoProvider>().toggleIsMuted(),
-            title: const Text(
-              "Enable notifications",
-            ),
-          ),
+          // SwitchListTile(
+          //   value: context.watch<VideoProvider>().isMuted,
+          //   onChanged: (value) => context.read<VideoProvider>().toggleIsMuted(),
+          //   title: const Text(
+          //     "Enable notifications",
+          //   ),
+          // ),
           // ValueNotifier
           /*  AnimatedBuilder(
             animation: videoChangeNotifier,

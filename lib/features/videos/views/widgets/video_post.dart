@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiktok_clone/common/widgets/video_config/video_provider.dart';
 import 'package:tiktok_clone/common/widgets/video_config/video_value_notifier.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/videos/widgets/video_button.dart';
-import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/features/videos/views/widgets/video_button.dart';
+import 'package:tiktok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -106,6 +106,10 @@ class _VideoPostState extends State<VideoPost>
         _autoMute = videoValueNotifier.value;
       });
     });
+
+    context
+        .read<PlaybackConfigViewModel>()
+        .addListener(_onPlaybackConfigChanged);
   }
 
   @override
@@ -114,11 +118,24 @@ class _VideoPostState extends State<VideoPost>
     super.dispose();
   }
 
+  void _onPlaybackConfigChanged() {
+    if (!mounted) return;
+    final muted = context.read<PlaybackConfigViewModel>().muted;
+    if (muted) {
+      _vidoPlayerControllder.setVolume(0);
+    } else {
+      _vidoPlayerControllder.setVolume(1);
+    }
+  }
+
   void _onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_vidoPlayerControllder.value.isPlaying) {
-      _vidoPlayerControllder.play();
+      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      if (autoplay) {
+        _vidoPlayerControllder.play();
+      }
     }
     if (_vidoPlayerControllder.value.isPlaying && info.visibleFraction == 0) {
       _onTogglePause();
@@ -267,7 +284,7 @@ class _VideoPostState extends State<VideoPost>
                 GestureDetector(
                   onTap: _onToggleVolume,
                   child: FaIcon(
-                    context.watch<VideoProvider>().isMuted
+                    context.watch<PlaybackConfigViewModel>().muted
                         ? FontAwesomeIcons.volumeXmark
                         : _isMuted
                             ? FontAwesomeIcons.volumeHigh
