@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tiktok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/utils.dart';
 
 import '../../constants/gaps.dart';
@@ -48,13 +48,7 @@ class _TutorialScreenTwoState extends State<TutorialScreenTwo> {
   }
 
   void _onEnterAppTap() {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const MainNavigationScreen(tab: "home"),
-        ), (route) {
-      // print(route);
-      return true;
-    });
+    context.go("/home");
   }
 
   @override

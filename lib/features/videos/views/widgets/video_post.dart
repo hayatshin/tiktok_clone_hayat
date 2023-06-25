@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiktok_clone/common/widgets/video_config/video_value_notifier.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
@@ -35,10 +34,10 @@ class _VideoPostState extends State<VideoPost>
   final String _initialVideoDescription = "This is my house in Tahiland!!";
   String _videoDescription = "";
 
-  bool _isPaused = false;
+  bool _isPaused = true;
   bool _isMuted = true;
   // bool _autoMute = videoChangeNotifier.autoMute;
-  bool _autoMute = videoValueNotifier.value;
+  // bool _autoMute = videoValueNotifier.value;
 
   void _onVideoChange() {
     if (!mounted) return;
@@ -58,9 +57,6 @@ class _VideoPostState extends State<VideoPost>
 
     if (kIsWeb) {
       await _vidoPlayerControllder.setVolume(0);
-      setState(() {
-        _isMuted = true;
-      });
     }
     _vidoPlayerControllder.addListener(_onVideoChange);
 
@@ -101,11 +97,11 @@ class _VideoPostState extends State<VideoPost>
     //   });
     // });
 
-    videoValueNotifier.addListener(() {
-      setState(() {
-        _autoMute = videoValueNotifier.value;
-      });
-    });
+    // videoValueNotifier.addListener(() {
+    //   setState(() {
+    //     _autoMute = videoValueNotifier.value;
+    //   });
+    // });
 
     context
         .read<PlaybackConfigViewModel>()
@@ -121,20 +117,27 @@ class _VideoPostState extends State<VideoPost>
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
     final muted = context.read<PlaybackConfigViewModel>().muted;
+    // print("muted: $muted");
+    _isMuted = muted;
     if (muted) {
       _vidoPlayerControllder.setVolume(0);
     } else {
-      _vidoPlayerControllder.setVolume(1);
+      _vidoPlayerControllder.setVolume(100);
     }
+    setState(() {});
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_vidoPlayerControllder.value.isPlaying) {
       final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
       if (autoplay) {
         _vidoPlayerControllder.play();
+        context
+            .read<PlaybackConfigViewModel>()
+            .addListener(_onPlaybackConfigChanged);
       }
     }
     if (_vidoPlayerControllder.value.isPlaying && info.visibleFraction == 0) {
@@ -206,9 +209,10 @@ class _VideoPostState extends State<VideoPost>
                   ),
           ),
           Positioned.fill(
-              child: GestureDetector(
-            onTap: _onTogglePause,
-          )),
+            child: GestureDetector(
+              onTap: _onTogglePause,
+            ),
+          ),
           Positioned.fill(
             child: IgnorePointer(
               child: Center(
@@ -284,11 +288,9 @@ class _VideoPostState extends State<VideoPost>
                 GestureDetector(
                   onTap: _onToggleVolume,
                   child: FaIcon(
-                    context.watch<PlaybackConfigViewModel>().muted
-                        ? FontAwesomeIcons.volumeXmark
-                        : _isMuted
-                            ? FontAwesomeIcons.volumeHigh
-                            : FontAwesomeIcons.volumeXmark,
+                    _isMuted
+                        ? FontAwesomeIcons.volumeHigh
+                        : FontAwesomeIcons.volumeXmark,
                     size: Sizes.size40,
                     color: Theme.of(context).primaryColor,
                   ),
