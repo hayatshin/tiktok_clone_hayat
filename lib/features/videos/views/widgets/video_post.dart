@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
@@ -10,7 +10,7 @@ import 'package:tiktok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
 
@@ -21,10 +21,10 @@ class VideoPost extends StatefulWidget {
   });
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _vidoPlayerControllder;
   final Duration _animationDuration = const Duration(milliseconds: 200);
@@ -91,21 +91,21 @@ class _VideoPostState extends State<VideoPost>
       });
     }
 
-    // videoChangeNotifier.addListener(() {
-    //   setState(() {
-    //     _autoMute = videoChangeNotifier.autoMute;
-    //   });
-    // });
+    /*  videoChangeNotifier.addListener(() {
+      setState(() {
+        _autoMute = videoChangeNotifier.autoMute;
+      });
+    }); */
 
-    // videoValueNotifier.addListener(() {
-    //   setState(() {
-    //     _autoMute = videoValueNotifier.value;
-    //   });
-    // });
+    /*  videoValueNotifier.addListener(() {
+      setState(() {
+        _autoMute = videoValueNotifier.value;
+      });
+    }); */
 
-    context
+    /* context
         .read<PlaybackConfigViewModel>()
-        .addListener(_onPlaybackConfigChanged);
+        .addListener(_onPlaybackConfigChanged); */
   }
 
   @override
@@ -116,8 +116,7 @@ class _VideoPostState extends State<VideoPost>
 
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
-    final muted = context.read<PlaybackConfigViewModel>().muted;
-    // print("muted: $muted");
+    final muted = ref.read(playbackConfigProvder).muted;
     _isMuted = muted;
     if (muted) {
       _vidoPlayerControllder.setVolume(0);
@@ -132,12 +131,12 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_vidoPlayerControllder.value.isPlaying) {
-      final autoplay = context.read<PlaybackConfigViewModel>().autoplay;
+      final autoplay = ref.read(playbackConfigProvder).autoPlay;
       if (autoplay) {
         _vidoPlayerControllder.play();
-        context
-            .read<PlaybackConfigViewModel>()
-            .addListener(_onPlaybackConfigChanged);
+        // context
+        //     .read<PlaybackConfigViewModel>()
+        //     .addListener(_onPlaybackConfigChanged);
       }
     }
     if (_vidoPlayerControllder.value.isPlaying && info.visibleFraction == 0) {

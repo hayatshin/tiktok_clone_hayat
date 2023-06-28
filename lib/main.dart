@@ -1,15 +1,22 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktok_clone/common/widgets/video_config/dark_config.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/repos/video_playback_config_repo.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/firebase_options.dart';
 import 'package:tiktok_clone/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   await SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,
@@ -20,38 +27,41 @@ void main() async {
   final repository = VideoPlaybackConfigRepository(preferences);
 
   runApp(
-    MultiProvider(
+    ProviderScope(
+      overrides: [
+        playbackConfigProvder.overrideWith(
+          () => PlaybackConfigViewModel(repository),
+        ),
+      ],
+      child: const TikTokApp(),
+    ),
+    /* MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => PlaybackConfigViewModel(repository),
         )
       ],
       child: const TikTokApp(),
-    ),
+    ), */
   );
 }
 
-class TikTokApp extends StatefulWidget {
+class TikTokApp extends ConsumerWidget {
   const TikTokApp({super.key});
 
-  @override
-  State<TikTokApp> createState() => _TikTokAppState();
-}
-
-class _TikTokAppState extends State<TikTokApp> {
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     bool darkTheme = darkConfig.value;
 
-    darkConfig.addListener(() {
-      setState(() {
-        darkTheme = darkConfig.value;
-      });
-    });
+    // darkConfig.addListener(() {
+    //   setState(() {
+    //     darkTheme = darkConfig.value;
+    //   });
+    // });
 
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       // themeMode: ThemeMode.dark,

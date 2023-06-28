@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "702816088574",
+    "project_id": "tiktok-hayat-practice",
+    "storage_bucket": "tiktok-hayat-practice.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:702816088574:android:79c5150a813846e81210af",
+        "android_client_info": {
+          "package_name": "com.example.tiktok_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "702816088574-7v4d2u5cvhcoaletvmc3l1cgrkcvc9ao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2_BK_zRx4K2sLXefmnxRUfyQQahQNsYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "702816088574-7v4d2u5cvhcoaletvmc3l1cgrkcvc9ao.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "702816088574-vq7jih13p8il5oebaeb6fn4cp7fuorn9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tiktokClone"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
