@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/features/videos/models/video_model.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_clone/features/videos/view_models/video_post_view_models.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok_clone/features/videos/views/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
@@ -13,11 +15,13 @@ import 'package:visibility_detector/visibility_detector.dart';
 class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
+  final VideoModel videoData;
 
   const VideoPost({
     super.key,
     required this.onVideoFinished,
     required this.index,
+    required this.videoData,
   });
 
   @override
@@ -47,6 +51,10 @@ class VideoPostState extends ConsumerState<VideoPost>
         widget.onVideoFinished();
       }
     }
+  }
+
+  void _onLikeTap() {
+    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
   }
 
   void _initVideoPlayer() async {
@@ -201,12 +209,15 @@ class VideoPostState extends ConsumerState<VideoPost>
       child: Stack(
         children: [
           Positioned.fill(
-            child: _vidoPlayerControllder.value.isInitialized
-                ? VideoPlayer(_vidoPlayerControllder)
-                : Container(
-                    color: Colors.black,
-                  ),
-          ),
+              child: _vidoPlayerControllder.value.isInitialized
+                  ? VideoPlayer(_vidoPlayerControllder)
+                  : VideoPlayer(_vidoPlayerControllder)
+
+              // Image.network(
+              //     widget.videoData.thumbnailUrl,
+              //     fit: BoxFit.cover,
+              //   ),
+              ),
           Positioned.fill(
             child: GestureDetector(
               onTap: _onTogglePause,
@@ -242,9 +253,9 @@ class VideoPostState extends ConsumerState<VideoPost>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "@니꼬",
-                  style: TextStyle(
+                Text(
+                  "@${widget.videoData.creator}",
+                  style: const TextStyle(
                     fontSize: Sizes.size20,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -254,7 +265,7 @@ class VideoPostState extends ConsumerState<VideoPost>
                 Row(
                   children: [
                     Text(
-                      _videoDescription,
+                      widget.videoData.description,
                       style: const TextStyle(
                         fontSize: Sizes.size16,
                         color: Colors.white,
@@ -295,28 +306,31 @@ class VideoPostState extends ConsumerState<VideoPost>
                   ),
                 ),
                 Gaps.v24,
-                const CircleAvatar(
+                CircleAvatar(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,
-                  foregroundImage: NetworkImage(
+                  foregroundImage: const NetworkImage(
                     "https://cdn.icon-icons.com/icons2/1879/PNG/512/iconfinder-8-avatar-2754583_120515.png",
                   ),
                   radius: 25,
                   child: Text(
-                    "니꼬",
+                    widget.videoData.creator,
                   ),
                 ),
                 Gaps.v24,
-                const VideoButton(
-                  icon: FontAwesomeIcons.solidHeart,
-                  text: "2.9M",
+                GestureDetector(
+                  onTap: _onLikeTap,
+                  child: VideoButton(
+                    icon: FontAwesomeIcons.solidHeart,
+                    text: "${widget.videoData.likes}",
+                  ),
                 ),
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
-                  child: const VideoButton(
+                  child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
-                    text: "33K",
+                    text: "${widget.videoData.comments}",
                   ),
                 ),
                 Gaps.v24,
