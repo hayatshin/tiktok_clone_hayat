@@ -40,10 +40,13 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   bool _isPaused = true;
   bool _isMuted = true;
+
+  bool _likeThisVideo = false;
+  int _videoCount = 0;
   // bool _autoMute = videoChangeNotifier.autoMute;
   // bool _autoMute = videoValueNotifier.value;
 
-  void _onVideoChange() {
+  void _onVideoChange() async {
     if (!mounted) return;
     if (_vidoPlayerControllder.value.isInitialized) {
       if (_vidoPlayerControllder.value.duration ==
@@ -55,6 +58,13 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   void _onLikeTap() {
     ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
+    if (_likeThisVideo) {
+      _videoCount -= 1;
+    } else {
+      _videoCount += 1;
+    }
+    _likeThisVideo = !_likeThisVideo;
+    setState(() {});
   }
 
   void _initVideoPlayer() async {
@@ -71,10 +81,26 @@ class VideoPostState extends ConsumerState<VideoPost>
     setState(() {});
   }
 
+  void _initialLike() async {
+    final likeThisVideoFromDB = await ref
+        .read(videoPostProvider(widget.videoData.id).notifier)
+        .likeOrNot;
+
+    setState(() {
+      _likeThisVideo = likeThisVideoFromDB;
+    });
+  }
+
+  void _initLikeCount() {
+    _videoCount = widget.videoData.likes;
+  }
+
   @override
   void initState() {
     super.initState();
     _initVideoPlayer();
+    _initialLike();
+    _initLikeCount();
 
     _animationController = AnimationController(
       vsync: this,
@@ -321,8 +347,10 @@ class VideoPostState extends ConsumerState<VideoPost>
                 GestureDetector(
                   onTap: _onLikeTap,
                   child: VideoButton(
-                    icon: FontAwesomeIcons.solidHeart,
-                    text: "${widget.videoData.likes}",
+                    icon: _likeThisVideo
+                        ? FontAwesomeIcons.solidHeart
+                        : FontAwesomeIcons.heart,
+                    text: _videoCount.toString(),
                   ),
                 ),
                 Gaps.v24,
