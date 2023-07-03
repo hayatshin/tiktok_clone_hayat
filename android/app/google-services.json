@@ -39,10 +39,10 @@
               "client_type": 3
             },
             {
-              "client_id": "702816088574-vq7jih13p8il5oebaeb6fn4cp7fuorn9.apps.googleusercontent.com",
+              "client_id": "702816088574-afgf9da707ibtd6h9d71ob4qbp5sl85u.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.tiktokClone"
+                "bundle_id": "com.example.tiktokClone.RunnerTests"
               }
             }
           ]

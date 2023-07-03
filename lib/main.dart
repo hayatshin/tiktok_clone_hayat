@@ -59,7 +59,6 @@ class TikTokApp extends ConsumerWidget {
     //     darkTheme = darkConfig.value;
     //   });
     // });
-
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
